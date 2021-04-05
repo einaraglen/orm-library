@@ -3,15 +3,10 @@ package no.ntnu.stud.einagl;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class HTTPServer {
     //server port definition.
@@ -165,13 +160,13 @@ public class HTTPServer {
                         deleteLoan(bodyFormat);
                         break;
                     case 4:
-                        retriveBorrowersOf(body, bodyFormat);
+                        retrieveBorrowersOf(body, bodyFormat);
                         break;
                     case 5:
-                        retriveBorrowedOnDate(body, bodyFormat);
+                        retrieveBorrowedOnDate(body, bodyFormat);
                         break;
                     case 6:
-                        retriveAllLoans(bodyFormat);
+                        retrieveAllLoans(bodyFormat);
                         break;
                     default:
                         break;
@@ -193,7 +188,7 @@ public class HTTPServer {
         );*/
 
         for (int i = 2; i < body.length; i++) {
-            System.out.println(body[i]);
+            //System.out.println(body[i]);
         }
 
         bodyFormat.append("Insert Completed!\n");
@@ -205,10 +200,10 @@ public class HTTPServer {
 
     //Question 2
     private static void updateClient(String[] body, StringBuilder bodyFormat) {
-        /*Connector.updateClientAddressOf(body[6], body[7]);
+        /*Connector.updateClientAddressOf(body[2], body[3]);
         Connector.updateClientNumberOf(
-                body[6],
-                Integer.parseInt(body[8])
+                body[2],
+                Integer.parseInt(body[4])
         );*/
 
         for (int i = 2; i < body.length; i++) {
@@ -223,6 +218,8 @@ public class HTTPServer {
 
     //Question 3
     private static void deleteLoan(StringBuilder bodyFormat) {
+        //Connector.deleteLoanOf(4012);
+
         bodyFormat.append("Delete Completed!\n");
         bodyFormat.append(System.getProperty("line.separator"));
         bodyFormat.append("-------------------\n");
@@ -230,25 +227,55 @@ public class HTTPServer {
     }
 
     //Question 4
-    private static void retriveBorrowersOf(String[] body, StringBuilder bodyFormat) {
+    private static void retrieveBorrowersOf(String[] body, StringBuilder bodyFormat) {
+        ArrayList<String> lines = Connector.readBorrowersOf(body[2].replace("\r", ""));
 
+        for (String line : lines) {
+            bodyFormat.append(line + "\n");
+        }
+
+        bodyFormat.append(System.getProperty("line.separator"));
+        bodyFormat.append("Read 1 Completed!\n");
+        bodyFormat.append(System.getProperty("line.separator"));
+        bodyFormat.append("-------------------\n");
+        bodyFormat.append(System.getProperty("line.separator"));
     }
 
     //Question 5
-    private static void retriveBorrowedOnDate(String[] body, StringBuilder bodyFormat) {
+    private static void retrieveBorrowedOnDate(String[] body, StringBuilder bodyFormat) {
+        ArrayList<String> lines = Connector.readBookBasedOnDate(body[2].replace("\r", ""));
 
+        for (String line : lines) {
+            bodyFormat.append(line + "\n");
+        }
+
+        bodyFormat.append(System.getProperty("line.separator"));
+        bodyFormat.append("Read 2 Completed!\n");
+        bodyFormat.append(System.getProperty("line.separator"));
+        bodyFormat.append("-------------------\n");
+        bodyFormat.append(System.getProperty("line.separator"));
     }
 
     //Question 6
-    private static void retriveAllLoans(StringBuilder bodyFormat) {
+    private static void retrieveAllLoans(StringBuilder bodyFormat) {
+        ArrayList<String> lines = Connector.readLoansPerBranch();
 
+        for (String line : lines) {
+            bodyFormat.append(line + "\n");
+        }
+
+        bodyFormat.append(System.getProperty("line.separator"));
+        bodyFormat.append("Read 3 Completed!\n");
+        bodyFormat.append(System.getProperty("line.separator"));
+        bodyFormat.append("-------------------\n");
+        bodyFormat.append(System.getProperty("line.separator"));
     }
 
     private static void formatHttpResponseHeader(BufferedOutputStream dataOut, String responseStatus, int fileLength,
                                                  String contentMimeType) {
         final PrintWriter out = new PrintWriter(dataOut);
         out.println("HTTP/1.1 " + responseStatus);
-        out.println("Server: Java HTTP Server from Di: 1.0");
+        out.println("Server: Java HTTP Server from einaragl 2.0");
         out.println("Date: " + new Date());
         out.println("Content-type: " + contentMimeType);
         out.println("Content-length: " + fileLength);

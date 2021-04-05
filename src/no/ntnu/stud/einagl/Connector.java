@@ -1,6 +1,7 @@
 package no.ntnu.stud.einagl;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Connector {
 
@@ -45,10 +46,11 @@ public class Connector {
         }
     }
 
-    public static void readBorrowersOf(String book) {
+    public static ArrayList<String> readBorrowersOf(String book) {
         Connection connection = connect();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        ArrayList<String> lines = new ArrayList<>();
         try {
             String sql = "select br.Name as Branch, c.Name as Borrower\n" +
                          "from Branch br, Books b, Clients c, Loans lo\n" +
@@ -58,10 +60,10 @@ public class Connector {
             preparedStatement.setString(1, book);
             resultSet = preparedStatement.executeQuery();
 
-            System.out.println("Borrowers of : (" +book + ")");
+            lines.add("Borrowers of : (" +book + ")");
 
             while(resultSet.next()) {
-                System.out.println(
+                lines.add(
                         resultSet.getString(2) + " Borrowed from " + resultSet.getString(1)
                 );
             }
@@ -80,12 +82,15 @@ public class Connector {
             }
         }
 
+        return lines;
+
     }
 
-    public static void readBookBasedOnDate(String date) {
+    public static ArrayList<String> readBookBasedOnDate(String date) {
         Connection connection = connect();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        ArrayList<String> lines = new ArrayList<>();
         try {
             String sql = "select b.Title, c.Name, c.Address\n" +
                          "from Branch br, Books b, Clients c, Loans lo\n" +
@@ -95,10 +100,10 @@ public class Connector {
             preparedStatement.setString(1, date);
             resultSet = preparedStatement.executeQuery();
 
-            System.out.println("Books borrowed : (" + date + ")");
+            lines.add("Books borrowed on : (" + date + ")");
 
             while(resultSet.next()) {
-                System.out.println(
+                lines.add(
                         resultSet.getString(1) + " Borrowed by " + resultSet.getString(2) + " from " + resultSet.getString(3)
                 );
             }
@@ -117,12 +122,15 @@ public class Connector {
             }
         }
 
+        return lines;
+
     }
 
-    public static void readLoansPerBranch() {
+    public static ArrayList<String> readLoansPerBranch() {
         Connection connection = connect();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        ArrayList<String> lines = new ArrayList<>();
         try {
             String sql = "select br.Name as branch_name, count(*) as loaded_out\n" +
                          "from Branch br, Books b, Clients c, Loans lo\n" +
@@ -132,10 +140,10 @@ public class Connector {
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
-            System.out.println("Out-Loaned books :");
+            lines.add("Out-Loaned books :");
 
             while(resultSet.next()) {
-                System.out.println(
+                lines.add(
                         resultSet.getString(1) + " loaned out " + resultSet.getString(2) + " books"
                 );
             }
@@ -153,6 +161,8 @@ public class Connector {
                 System.out.println(e);
             }
         }
+
+        return lines;
 
     }
 
