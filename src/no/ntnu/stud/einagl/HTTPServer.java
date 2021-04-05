@@ -180,16 +180,12 @@ public class HTTPServer {
 
     //Question 1
     private static void insertBook(String[] body, StringBuilder bodyFormat) {
-        /*Connector.insertBook(
-                Integer.parseInt(body[2]),
-                Integer.parseInt(body[3]),
-                body[4],
-                body[5]
-        );*/
-
-        for (int i = 2; i < body.length; i++) {
-            //System.out.println(body[i]);
-        }
+        Connector.insertBook(
+                Integer.parseInt(body[2].replace("\r", "")),
+                Integer.parseInt(body[3].replace("\r", "")),
+                body[4].replace("\r", ""),
+                body[5].replace("\r", "")
+        );
 
         bodyFormat.append("Insert Completed!\n");
         bodyFormat.append(System.getProperty("line.separator"));
@@ -200,15 +196,11 @@ public class HTTPServer {
 
     //Question 2
     private static void updateClient(String[] body, StringBuilder bodyFormat) {
-        /*Connector.updateClientAddressOf(body[2], body[3]);
+        Connector.updateClientAddressOf(body[2].replace("\r", ""), body[3].replace("\r", ""));
         Connector.updateClientNumberOf(
-                body[2],
-                Integer.parseInt(body[4])
-        );*/
-
-        for (int i = 2; i < body.length; i++) {
-            System.out.println(body[i]);
-        }
+                body[2].replace("\r", ""),
+                Integer.parseInt(body[4].replace("\r", ""))
+        );
 
         bodyFormat.append("Update Completed!\n");
         bodyFormat.append(System.getProperty("line.separator"));
@@ -218,7 +210,7 @@ public class HTTPServer {
 
     //Question 3
     private static void deleteLoan(StringBuilder bodyFormat) {
-        //Connector.deleteLoanOf(4012);
+        Connector.deleteLoanOf(4012);
 
         bodyFormat.append("Delete Completed!\n");
         bodyFormat.append(System.getProperty("line.separator"));

@@ -68,8 +68,6 @@ public class Connector {
                 );
             }
 
-            System.out.println("\n");
-
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -108,8 +106,6 @@ public class Connector {
                 );
             }
 
-            System.out.println("\n");
-
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -147,8 +143,6 @@ public class Connector {
                         resultSet.getString(1) + " loaned out " + resultSet.getString(2) + " books"
                 );
             }
-
-            System.out.println("\n");
 
         } catch (SQLException e) {
             System.out.println(e);
