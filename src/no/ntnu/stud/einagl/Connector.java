@@ -27,7 +27,6 @@ public class Connector {
             preparedStatement.setString(3, title);
             preparedStatement.setString(4, publisher);
             preparedStatement.execute();
-            System.out.println("Book added");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -41,7 +40,6 @@ public class Connector {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, issue_id);
             preparedStatement.execute();
-            System.out.println("Loan deleted");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -167,7 +165,6 @@ public class Connector {
             preparedStatement.setString(1, address);
             preparedStatement.setString(2, name);
             preparedStatement.execute();
-            System.out.println("Client Address updated");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -182,7 +179,6 @@ public class Connector {
             preparedStatement.setInt(1, number);
             preparedStatement.setString(2, name);
             preparedStatement.execute();
-            System.out.println("Client Number updated");
         } catch (SQLException e) {
             System.out.println(e);
         }
