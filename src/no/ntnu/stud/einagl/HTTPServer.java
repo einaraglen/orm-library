@@ -210,7 +210,7 @@ public class HTTPServer {
 
     //Question 3
     private static void deleteLoan(StringBuilder bodyFormat) {
-        Connector.deleteLoanOf(4012);
+        Connector.deleteLoanOf(4101);
 
         bodyFormat.append("Delete Completed!\n");
         bodyFormat.append(System.getProperty("line.separator"));
